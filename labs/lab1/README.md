@@ -143,7 +143,70 @@ SW1(config-if)#exit
 ```   
 
 Убедимся, что все VLAN назначены правильно: 
-![](pic/show_vlan_SW1.png) 
+![](pic/show_vlan_SW1.png)  
+
+Также проверим и для SW2: 
+![](pic/show_vlan_SW2.png)    
+
+
+### 3. Конфигурация магистрального канала стандарта 802.1Q между коммутаторами    
+#### 3.1  Вручную настроим магистральный интерфейс F0/1 на коммутаторах S1 и S2.    
+Настроим статический транкинг на интерфейсе e0/0 для обоих коммутаторов.     
+Установим native VLAN 8 на обоих коммутаторах    
+Укажем, что VLAN 3,4,8 могут проходить по транку   
+```
+SW1(config)#int e0/2
+SW1(config-if)#switchport trunk encapsulation dot1q
+SW1(config-if)#switchport mode trunk
+SW1(config-if)#switchport trunk allowed vlan 3,4,8
+SW1(config-if)#switchport trunk native vlan 8
+SW1(config-if)#exit
+``` 
+
+Проверим транки, native VLAN и разрешенные VLAN через транк.    
+Используем команду *show interfaces trunk*  
+![](pic/show_trunk_SW1.png) 
+![](pic/show_trunk_SW2.png) 
+
+#### 3.2  Вручную настроим магистральный интерфейс e0/2 на коммутаторе S1     
+```
+SW1(config)#int e0/2
+SW1(config-if)#switchport trunk encapsulation dot1q
+SW1(config-if)#switchport mode trunk
+SW1(config-if)#switchport trunk allowed vlan 3,4,8
+SW1(config-if)#switchport trunk native vlan 8
+SW1(config-if)#exit 
+```
+
+### 4. Настройка маршрутизации между сетями VLAN    
+Настроим подинтерфейсы для каждой VLAN, как указано в таблице     
+```
+R1(config)#int e0/0.3
+R1(config-subif)# encapsulation dot1Q 3
+R1(config-subif)#ip address 192.168.3.1 255.255.255.0
+R1(config-subif)#exit
+R1(config)#int e0/0.4
+R1(config-subif)#encapsulation dot1Q 4
+R1(config-subif)#ip address 192.168.4.1 255.255.255.0
+R1(config-subif)#exit
+R1(config)#int e0/0.8
+R1(config-subif)#encapsulation dot1Q 8 native
+R1(config-subif)#exit  
+```   
+Полную конфигурацию устройства можно посмотреть [здесь](config/config_R1)   
+
+### 5. Проверим работу маршрутизации между VLAN     
+***a)***	Отправьте эхо-запрос с PC-A на шлюз по умолчанию.
+***b)***	Отправьте эхо-запрос с PC-A на PC-B.
+***c)***	Отправьте команду ping с компьютера PC-A на коммутатор S2.    
+Результат:    
+![](pic/test.png)     
+![](pic/test3.png)
+![](pic/test2.png)
+
+
+
+
 
 
 
