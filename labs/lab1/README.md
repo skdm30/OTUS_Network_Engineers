@@ -49,7 +49,48 @@
 Для выполнения работы создадим сеть согласно топологии    
 ![](pic/topology.png)    
 
-Настройка базовых конфигураций [R1](config/base_setting_R1), [S1](config/base_setting_S1), [S2](config/base_setting_S1).    
+Настройку выполним на примере SW1.
+Войдем в режим глобальной конфигурации:  
+``` 
+Switch>enable
+Switch#conf t
+``` 
+Назначим имя устройства:  
+``` 
+Switch(config)#hostname SW1
+``` 
+Отключим поиск DNS: 
+```   
+SW1(config)#no ip domain-lookup
+```   
+Назначим пароли на привелигированный режим, пароль консоли и пароль виртуального терминала, после чего зашифруем открытые пароли: 
+```
+SW1(config)#enable secret class
+SW1(config)#line con 0
+SW1(config-line)#password cisco
+SW1(config-line)#login
+SW1(config-line)#logging synchronous
+SW1(config-line)#exit
+SW1(config)#line
+SW1(config)#line vty 0 4
+SW1(config-line)#password cisco
+SW1(config-line)#login
+SW1(config-line)#exit   
+SW1(config)#service password-encryption
+``` 
+Создадим баннер сохраним конфигурацию:  
+```
+SW1(config)#banner motd #Attention! This is a private space!Unauthorized access is prohibited!#   
+SW1(config)#exit  
+SW1#wr
+``` 
+Настроим время на устройстве: 
+``` 
+SW1# clock set 21:10:55 16 February 2022  
+``` 
+
+Результат настройки базовых конфигураций можно посмотреть тут - [R1](config/base_setting_R1), [S1](config/base_setting_S1), [S2](config/base_setting_S1). 
+
 Настройка PC-A и PC-B:    
 
 ![](pic/base_setting_PC.png)    
