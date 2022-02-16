@@ -78,7 +78,7 @@ SW1(config-line)#login
 SW1(config-line)#exit   
 SW1(config)#service password-encryption
 ``` 
-Создадим баннер сохраним конфигурацию:  
+Создадим баннер и сохраним конфигурацию:  
 ```
 SW1(config)#banner motd #Attention! This is a private space!Unauthorized access is prohibited!#   
 SW1(config)#exit  
@@ -91,7 +91,20 @@ SW1# clock set 21:10:55 16 February 2022
 
 Результат настройки базовых конфигураций можно посмотреть тут - [R1](config/base_setting_R1), [S1](config/base_setting_S1), [S2](config/base_setting_S1). 
 
-Настройка PC-A и PC-B:    
+Настройка PC-A:     
+```
+VPCS> ip 192.168.3.3/24 192.168.3.1
+Checking for duplicate address...
+PC1 : 192.168.3.3 255.255.255.0 gateway 192.168.3.1
+``` 
+и PC-B: 
+``` 
+VPCS> ip 192.168.4.3/24 192.168.4.1
+Checking for duplicate address...
+PC1 : 192.168.4.3 255.255.255.0 gateway 192.168.4.1
 
-![](pic/base_setting_PC.png)    
+VPCS> save
+``` 
+
+
 
