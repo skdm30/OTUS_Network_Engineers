@@ -105,6 +105,44 @@ PC1 : 192.168.4.3 255.255.255.0 gateway 192.168.4.1
 
 VPCS> save
 ``` 
+  
+### 2. Создание сети и настройка основных параметров устройств    
+#### 2.1 Создание сети VLAN на коммутаторах   
+Создадим и назовем необходимые VLAN на каждом коммутаторе в соответствие с таблицей.
+Настроим интерфейс управления и шлюз по умолчанию на каждом коммутаторе. 
+Назначим все неиспользуемые порты коммутатора VLAN Parking_Lot, настроим их для статического режима доступа и административно деактивируем их:       
+``` 
+SW1(config)#vlan 3
+SW1(config-vlan)#name MANAGEMENT
+SW1(config-vlan)#exit
+SW1(config)#vlan 7
+SW1(config-vlan)#name PARKING_LOT
+SW1(config-vlan)#exi
+SW1(config)#vlan 8
+SW1(config-vlan)#name NATIVE
+SW1(config-vlan)#exit
+SW1(config)#int vlan 3
+SW1(config-if)#ip address 192.168.3.11 255.255.255.0
+SW1(config-if)#exit
+SW1(config)#ip default-gateway 192.168.3.1
+SW1(config)#int ethernet 0/1
+SW1(config)#int e 0/3
+SW1(config-if)#swi mod ac
+SW1(config-if)#swi acc vlan 7
+SW1(config-if)#shutdown
+SW1(config-if)#exit
+SW1(config)#
+```   
+#### 2.2 Назначьте сети VLAN соответствующим интерфейсам коммутатора    
+Назначим используемые порты соответствующей VLAN (указанной в таблице VLAN выше) и настроим их для режима статического доступа: 
+``` 
+SW1(config)#int ethernet 0/1
+SW1(config-if)#switchport mode access
+SW1(config-if)#sw acc vlan 3
+SW1(config-if)#exit 
+``` 
+
+
 
 
 
