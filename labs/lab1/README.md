@@ -140,7 +140,10 @@ SW1(config)#int ethernet 0/1
 SW1(config-if)#switchport mode access
 SW1(config-if)#sw acc vlan 3
 SW1(config-if)#exit 
-``` 
+```   
+
+Убедимся, что все VLAN назначены правильно: 
+![](pic/show_vlan_SW1.png) 
 
 
 
