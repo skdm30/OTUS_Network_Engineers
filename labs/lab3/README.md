@@ -84,7 +84,8 @@ Pool R2_Client_LAN :
  ```    
  На компютере PC-A выполним команду *ipconfig* и посмотрим, получил ли он адрес.  
  Затем пропингуем порт G0/0/1 R2.
- ![](pic/ping_PC-A.png)   
+ ![](pic/PC1.png) 
+ 
  
  ### 3. Настройка и проверка DHCP-ретрансляции на R2  
  **Настроим R2 в качестве агентаDHCP-ретрансляции для локальной сети**
@@ -92,7 +93,7 @@ Pool R2_Client_LAN :
  R2(config-if)#ip helper-address 10.0.0.1 
  ```    
  На компьютере PC-B выполним команду *ipconfig*, а затем проверим подключение к компьютеру PC-A 
- ![](pic/ping_PC-B.png)   
+ ![](pic/PC2.png)   
  Выполним *show ip dhcp binding* в R1 для проверки назначений адресов в DHCP    
  ```  
  R1#show ip dhcp binding 
