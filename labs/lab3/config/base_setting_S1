@@ -1,8 +1,8 @@
 Building configuration...
 
-Current configuration : 1015 bytes
+Current configuration : 1139 bytes
 !
-! Last configuration change at 18:43:53 EET Mon Feb 28 2022
+! Last configuration change at 19:21:01 EET Mon Feb 28 2022
 !
 version 15.2
 service timestamps debug datetime msec
@@ -59,8 +59,14 @@ interface Ethernet0/1
  switchport mode trunk
 !
 interface Ethernet0/2
+ switchport access vlan 999
+ switchport mode access
+ shutdown
 !
 interface Ethernet0/3
+ switchport access vlan 999
+ switchport mode access
+ shutdown
 !
 interface Vlan200
  ip address 192.168.1.66 255.255.255.224
@@ -86,3 +92,4 @@ line vty 0 4
 !
 !
 end
+
