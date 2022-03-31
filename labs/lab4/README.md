@@ -1,4 +1,4 @@
-
+![](pic/network.png)   
 **Общая таблица сетей.**
 
 | Network IPv4     | Network IPv6   | Description              | VLAN                |               |
