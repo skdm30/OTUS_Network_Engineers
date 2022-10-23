@@ -392,9 +392,9 @@ Et0/0.20    2    100   Standby 172.16.1.1      local           172.16.1.254
 Et0/0.30    3    150 P Active  local           172.16.2.1      172.16.2.254
 ``` 
 Полные настройки оборудования в Московском офиссе приведены здесь:
-[SW2](config/setting_SW2)
-[SW3](config/setting_SW3)
-[SW4](config/setting_SW4)
-[SW5](config/setting_SW5)
-[R12](config/setting_R12)
+[SW2](config/setting_SW2) 
+[SW3](config/setting_SW3) 
+[SW4](config/setting_SW4) 
+[SW5](config/setting_SW5) 
+[R12](config/setting_R12) 
 [R13](config/setting_R13)
