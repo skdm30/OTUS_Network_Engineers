@@ -1,0 +1,110 @@
+```
+SW8#show run
+Building configuration...
+
+Current configuration : 1344 bytes
+!
+! Last configuration change at 13:51:04 EET Sun Oct 23 2022
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+service compress-config
+!
+hostname SW8
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$/.vK$S3oB.juFE9wmw0INVZ7bP0
+!
+no aaa new-model
+clock timezone EET 2 0
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain-lookup
+ip cef
+no ipv6 cef
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Ethernet0/0
+ switchport trunk allowed vlan 1,10,20,30
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface Ethernet0/1
+ switchport trunk allowed vlan 1,10,20,30
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface Ethernet0/2
+ switchport access vlan 20
+ switchport mode access
+ spanning-tree portfast
+!
+interface Ethernet0/3
+!
+interface Vlan1
+ no ip address
+!
+interface Vlan10
+ description MANAGEMENT
+ ip address 172.16.4.8 255.255.255.0
+!
+interface Vlan20
+ description IT
+ no ip address
+!
+interface Vlan30
+ description SALES
+ no ip address
+!
+ip default-gateway 172.16.4.254
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+!
+!
+control-plane
+!
+banner motd ^CWARNING^C
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+!
+!
+end
+
+```
