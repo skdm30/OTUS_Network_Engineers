@@ -299,6 +299,64 @@ Et0/1               Root FWD 100       128.2    Shr
 ```
 SW2
 ```
+VLAN0010
+  Spanning tree enabled protocol ieee
+  Root ID    Priority    24586
+             Address     aabb.cc00.5000
+             Cost        100
+             Port        1 (Ethernet0/0)
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32778  (priority 32768 sys-id-ext 10)
+             Address     aabb.cc00.2000
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  15  sec
+
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Et0/0               Root FWD 100       128.1    Shr
+Et0/1               Altn BLK 100       128.2    Shr
+
+
+
+VLAN0020
+  Spanning tree enabled protocol ieee
+  Root ID    Priority    24596
+             Address     aabb.cc00.4000
+             Cost        100
+             Port        2 (Ethernet0/1)
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32788  (priority 32768 sys-id-ext 20)
+             Address     aabb.cc00.2000
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  15  sec
+
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Et0/0               Altn BLK 100       128.1    Shr
+Et0/1               Root FWD 100       128.2    Shr
+
+
+
+VLAN0030
+  Spanning tree enabled protocol ieee
+  Root ID    Priority    24606
+             Address     aabb.cc00.5000
+             Cost        100
+             Port        1 (Ethernet0/0)
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32798  (priority 32768 sys-id-ext 30)
+             Address     aabb.cc00.2000
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  15  sec
+
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Et0/0               Root FWD 100       128.1    Shr
+Et0/1               Altn BLK 100       128.2    Shr
+Et0/2               Desg FWD 100       128.3    Shr
 
 ```
 
@@ -317,3 +375,26 @@ Group  Port-channel  Protocol    Ports
 ------+-------------+-----------+-----------------------------------------------
 1      Po1(SU)         PAgP      Et0/2(P)    Et0/3(P)
 ```
+
+**Настройка протокола HSRP на маршрутизаторах R12 и R13** 
+Вывод команды *show standby brief* на R12:
+```
+Interface   Grp  Pri P State   Active          Standby         Virtual IP
+Et0/0.10    1    100   Standby 172.16.0.22     local           172.16.0.254
+Et0/0.20    2    150 P Active  local           172.16.1.22     172.16.1.254
+Et0/0.30    3    100   Standby 172.16.2.22     local           172.16.2.254
+``` 
+Вывод команды *show standby brief* на R13:
+```
+Interface   Grp  Pri P State   Active          Standby         Virtual IP
+Et0/0.10    1    200 P Active  local           172.16.0.1      172.16.0.254
+Et0/0.20    2    100   Standby 172.16.1.1      local           172.16.1.254
+Et0/0.30    3    150 P Active  local           172.16.2.1      172.16.2.254
+``` 
+Полные настройки оборудования в Московском офиссе приведены здесь:
+[SW2](config/setting_SW2)
+[SW3](config/setting_SW3)
+[SW4](config/setting_SW4)
+[SW5](config/setting_SW5)
+[R12](config/setting_R12)
+[R13](config/setting_R13)
