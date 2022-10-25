@@ -1,5 +1,5 @@
 # Лабораторная работа №4 
-![](pic/map.png)   
+![](pic/map_new.png)   
 **Общая таблица сетей.**
 
 | Network IPv4     |        Network IPv6        | Description              | VLAN                |               |
