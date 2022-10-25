@@ -1,0 +1,17 @@
+**IP-адреса коммутаторов**
+
+| host  | IPv4 address | IPv6 address |              |
+|------:|--------------|--------------|--------------|
+| SW2   | 172.16.0.2   |              | Moskow       |
+| SW3   | 172.16.0.3   |              | Moskow       |
+| SW4   | 172.16.0.4   |              | Moskow       |
+| SW5   | 172.16.0.5   |              | Moskow       |
+| VPC1  | 172.16.1.10  |              | Moskow       |
+| VPC2  | 172.16.2.10  |              | Moskow       |
+| SW9   | 172.16.4.9   |              | S-Peterburg  |
+| SW10  | 172.16.4.10  |              | S-Peterburg  |
+| VPC8  | 172.16.5.10  |              | S-Peterburg  |
+| VPC   | 172.16.6.10  |              | S-Peterburg  |
+| SW2   | 172.16.8.29  |              | Chokurdakh   |
+| VPC30 | 172.16.8.70  |              | Chokurdakh   |
+| VPC30 | 172.16.8.170 |              | Chokurdakh   |
