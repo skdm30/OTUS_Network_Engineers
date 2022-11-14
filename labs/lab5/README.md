@@ -1,3 +1,4 @@
+```
 R28#show run
 Building configuration...
 
@@ -159,3 +160,4 @@ line vty 0 4
 !
 !
 end
+```
