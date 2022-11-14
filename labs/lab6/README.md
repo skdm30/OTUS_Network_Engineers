@@ -34,7 +34,9 @@ ip prefix-list FILTER-IN-AREA-102 seq 20 permit 0.0.0.0/0 le 32
  area 102 filter-list prefix FILTER-IN-AREA-102 in
 ``` 
 В правильности настройки можно убедиться, если сравнить результаты выполнения команды *show ip route* на R20 до и после настройки (не виден маршрут до 10.10.10.19) 
-![](pic/r20_do.png) 
+
+![](pic/r20_do.png)  
+
 ![](pic/r20_posle.png)  
 Изменененные конфигурации [R19](config/setting_R19), [R20](config/setting_R20)  
 
