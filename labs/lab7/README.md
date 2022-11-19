@@ -114,5 +114,8 @@ i L2     50.50.50.0/30 [115/20] via 50.50.50.13, 01:07:36, Ethernet0/2
 i L2     50.50.50.4/30 [115/30] via 50.50.50.13, 00:41:00, Ethernet0/2
 ``` 
 
-
+[R23](config/R23_settings)  
+[R24](config/R24_settings)  
+[R25](config/R23_setting)   
+[R26](config/R23_setting)
 
