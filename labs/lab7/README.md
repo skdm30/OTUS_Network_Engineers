@@ -1,4 +1,4 @@
-# Лабораторная работа №6 
+# Лабораторная работа №7 
 ![](pic/map.png)  
 В данной работе необходимо настроить протокол динамической маршрутизации *IS-IS*  
 
@@ -116,6 +116,6 @@ i L2     50.50.50.4/30 [115/30] via 50.50.50.13, 00:41:00, Ethernet0/2
 
 [R23](config/R23_settings)  
 [R24](config/R24_settings)  
-[R25](config/R23_setting)   
-[R26](config/R23_setting)
+[R25](config/R25_setting)   
+[R26](config/R26_setting)
 
