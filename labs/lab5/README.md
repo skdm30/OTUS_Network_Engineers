@@ -34,12 +34,6 @@ multilink bundle-name authenticated
 !
 !
 !
-!
-!
-!
-!
-!
-!
 redundancy
 !
 !
@@ -49,14 +43,6 @@ track 1 ip sla 1 reachability
 !
 track 2 ip sla 2 reachability
  delay down 10 up 5
-!
-!
-!
-!
-!
-!
-!
-!
 !
 !
 !
