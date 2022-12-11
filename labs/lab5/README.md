@@ -1,7 +1,8 @@
 # Лабораторная работа №5 
 ![](pic/map_lab5.png)     
        
-Адресный план указан тут https://github.com/skdm30/OTUS_Network_Engineers/tree/main/labs/lab4
+Адресный план указан тут https://github.com/skdm30/OTUS_Network_Engineers/tree/main/labs/lab4     
+
 В данной работе в офисе Чокурдах необходимо настроить маршрутизацию на основи политик *PBR*  
 
 **Описание/Пошаговая инструкция выполнения домашнего задания:** 
