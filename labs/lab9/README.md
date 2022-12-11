@@ -98,5 +98,5 @@ router bgp 2042
  exit-address-family
 ```    
 Связность Москвы и СПБ показывает прохождение пинга между Loopback интерфейсами пограничных маршрутов:   
-![](pic/ping.png
+![](pic/ping.png)
 
