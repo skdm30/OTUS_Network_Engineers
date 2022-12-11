@@ -1,5 +1,5 @@
 # Лабораторная работа №9 
-![](pic/map_lab5.png)     
+![](pic/map.png)     
        
 Адресный план указан тут https://github.com/skdm30/OTUS_Network_Engineers/tree/main/labs/lab4     
 
@@ -69,5 +69,34 @@ router bgp 101
   neighbor 90.90.90.9 activate
  exit-address-family
 ```      
-Настройка R2
+Настройка R24 
+```    
+router bgp 520
+ bgp log-neighbor-changes
+ neighbor 10.10.10.23 remote-as 520
+ neighbor 10.10.10.23 update-source Loopback0
+ neighbor 50.50.50.38 remote-as 2042
+ neighbor 50.50.50.42 remote-as 301
+ !
+ address-family ipv4
+  neighbor 10.10.10.23 activate
+  neighbor 10.10.10.23 next-hop-self
+  neighbor 50.50.50.38 activate
+  neighbor 50.50.50.42 activate
+ exit-address-family
+```    
+Настройка R18 
+```    
+
+router bgp 2042
+ bgp log-neighbor-changes
+ neighbor 50.50.50.37 remote-as 520
+ !
+ address-family ipv4
+  network 10.10.10.18 mask 255.255.255.255
+  neighbor 50.50.50.37 activate
+ exit-address-family
+```    
+Связность Москвы и СПБ показывает прохождение пинга между Loopback интерфейсами пограничных маршрутов:   
+![](pic/ping.png
 
