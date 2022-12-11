@@ -94,4 +94,42 @@ router bgp 520
  neighbor 50.50.50.34 remote-as 2042
 ``` 
 
+Для проверки результата, вызовем команду *show ip bgp sum*:    
+```    
+R23#show ip bgp summary
+BGP router identifier 10.10.10.23, local AS number 520
+BGP table version is 6, main routing table version 6
+5 network entries using 700 bytes of memory
+6 path entries using 480 bytes of memory
+3/3 BGP path/bestpath attribute entries using 432 bytes of memory
+2 BGP AS-PATH entries using 48 bytes of memory
+0 BGP route-map cache entries using 0 bytes of memory
+0 BGP filter-list cache entries using 0 bytes of memory
+BGP using 1660 total bytes of memory
+BGP activity 5/0 prefixes, 6/0 paths, scan interval 60 secs
 
+Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+10.10.10.24     4          520     184     185        6    0    0 02:43:10        3
+10.10.10.25     4          520     184     186        6    0    0 02:43:13        1
+10.10.10.26     4          520     182     186        6    0    0 02:43:00        2
+```    
+
+```    
+R26#show ip bgp summary
+BGP router identifier 10.10.10.26, local AS number 520
+BGP table version is 7, main routing table version 7
+5 network entries using 700 bytes of memory
+6 path entries using 480 bytes of memory
+5/4 BGP path/bestpath attribute entries using 720 bytes of memory
+2 BGP rrinfo entries using 48 bytes of memory
+2 BGP AS-PATH entries using 48 bytes of memory
+0 BGP route-map cache entries using 0 bytes of memory
+0 BGP filter-list cache entries using 0 bytes of memory
+BGP using 1996 total bytes of memory
+BGP activity 5/0 prefixes, 6/0 paths, scan interval 60 secs
+
+Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+10.10.10.23     4          520     186     182        7    0    0 02:43:05        4
+50.50.50.34     4         2042      32      34        7    0    0 00:22:51        1
+```    
+Видно, что R23 (который является RR) имеет соседские отношения со всеми роутерами в AS, а остольные только с R23.
