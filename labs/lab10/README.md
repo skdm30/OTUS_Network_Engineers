@@ -5,7 +5,9 @@
 В данной работе необходимо:
 1. Настроить iBGP в офисе Москва
 2. Настроить iBGP в сети провайдера Триада
-3. Организовать полную IP связанность всех сетей  
+3. Настройте офис Москва так, чтобы приоритетным провайдером стал Ламас.    
+4. Настройте офиса С.-Петербург так, чтобы трафик до любого офиса распределялся по двум линкам одновременно.
+5. Организовать полную IP связанность всех сетей  
 
 **1. Настроим на R14 и R15 iBGP:** 
 ``` 
@@ -37,7 +39,7 @@ router bgp 1001
   neighbor 90.90.90.6 activate
  exit-address-family
 ``` 
-**2. Настроим iBGP в провайдере Триада, с использованием RR:  
+**2. Настроим iBGP в провайдере Триада, с использованием RR:**  
 В качестве RR выберем R23.  
 ``` 
 R23#show run | s bgp
@@ -134,4 +136,28 @@ Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State
 ```    
 Видно, что R23 (который является RR) имеет соседские отношения со всеми роутерами в AS, а остольные только с R23.      
 Доступность всех офисов проверим, отправив *ping* с R15:       
-![](pic/ping.png)
+![](pic/ping.png)    
+
+**3. Настроим офис Москва так, чтобы приоритетным провайдером стал Ламас**    
+Будем использовать Local-preference на R15 в сторону провайдера R21 (Ламас), тем самым сделаем R21 приорететным и для R14, и R15.    
+```    
+route-map LP-150 permit 10
+ set local-preference 150
+```    
+```    
+router bgp 1001
+ bgp log-neighbor-changes
+ neighbor 10.10.10.14 remote-as 1001
+ neighbor 10.10.10.14 update-source Loopback0
+ neighbor 90.90.90.6 remote-as 301
+ !
+ address-family ipv4
+  network 10.10.10.15 mask 255.255.255.255
+  neighbor 10.10.10.14 activate
+  neighbor 10.10.10.14 next-hop-self
+  neighbor 10.10.10.14 soft-reconfiguration inbound
+  neighbor 90.90.90.6 activate
+  neighbor 90.90.90.6 route-map LP-150 in
+  neighbor 90.90.90.6 filter-list 100 in
+ exit-address-family
+```
