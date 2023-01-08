@@ -160,4 +160,6 @@ router bgp 1001
   neighbor 90.90.90.6 route-map LP-150 in
   neighbor 90.90.90.6 filter-list 100 in
  exit-address-family
-```
+```    
+Для проверки результата выполним *traceroute* c 10.10.10.14 (R14 Москва) до 10.10.10.18 (R18 СПБ)        
+![](pic/3.png) 
