@@ -165,4 +165,25 @@ router bgp 1001
 ![](pic/3.png)       
 Трафик идет через Ламас.    
 
-**4. Настроим офиса С.-Петербург так, чтобы трафик до любого офиса распределялся по двум линкам одновременно.**
+**4. Настроим офиса С.-Петербург так, чтобы трафик до любого офиса распределялся по двум линкам одновременно.** 
+Для балансировки трафика будем использовать скрытую команду * bgp bestpath as-path multipath-relax* на R18:     
+```    
+R18(config)# do show run | s bgp
+router bgp 2042
+ bgp log-neighbor-changes
+ bgp bestpath as-path multipath-relax
+ neighbor 50.50.50.33 remote-as 520
+ neighbor 50.50.50.37 remote-as 520
+ !
+ address-family ipv4
+  network 10.10.10.18 mask 255.255.255.255
+  neighbor 50.50.50.33 activate
+  neighbor 50.50.50.33 prefix-list AS520_in in
+  neighbor 50.50.50.37 activate
+  neighbor 50.50.50.37 prefix-list AS520_in in
+  maximum-paths 2
+ exit-address-family
+```    
+Проверим результат, выполнив *traceroute*:       
+![](pic/4.png)       
+
