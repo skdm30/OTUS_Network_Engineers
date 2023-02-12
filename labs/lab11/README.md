@@ -215,8 +215,7 @@ ip prefix-list SPB seq 10 permit 172.16.10.0/24 le 32
 ip prefix-list SPB seq 20 permit 50.50.50.0/24 le 32
 ```    
 
-
-
+Проверим результам с помощью команды ***show ip bgp neighbors 90.90.90.5 advertised-routes***, которая показывает, какие анонсы роутер передает конкретному соседу:
 
 ```    
 R21#show ip bgp neighbors 90.90.90.5 advertised-routes
