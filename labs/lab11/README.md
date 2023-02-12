@@ -191,4 +191,49 @@ RPKI validation codes: V valid, I invalid, N Not found
 ```    
 Видим, что появился маршрут по умолчанию к R22 (он не выбран ***best**, т.к. проверка проводилась после выполнения задания 4).       
 
+**4.** Настройка провайдера Ламас так, чтобы в офис Москва отдавался только маршрут по умолчанию и префикс офиса С.-Петербург.       
+Произведем настройку на R21 
+```    
+R21#show run | s bgp
+router bgp 301
+ bgp log-neighbor-changes
+ neighbor 50.50.50.41 remote-as 520
+ neighbor 90.90.90.5 remote-as 1001
+ neighbor 90.90.90.10 remote-as 101
+ !
+ address-family ipv4
+  neighbor 50.50.50.41 activate
+  neighbor 90.90.90.5 activate
+  neighbor 90.90.90.5 default-originate
+  neighbor 90.90.90.5 prefix-list SPB out
+  neighbor 90.90.90.10 activate
+ exit-address-family
+
+
+
+ip prefix-list SPB seq 10 permit 172.16.10.0/24 le 32
+ip prefix-list SPB seq 20 permit 50.50.50.0/24 le 32
+
+
+
+
+```    
+R21#show ip bgp neighbors 90.90.90.5 advertised-routes
+BGP table version is 11, local router ID is 10.10.10.21
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale, m multipath, b backup-path, f RT-Filter,
+              x best-external, a additional-path, c RIB-compressed,
+Origin codes: i - IGP, e - EGP, ? - incomplete
+RPKI validation codes: V valid, I invalid, N Not found
+
+Originating default network 0.0.0.0
+
+     Network          Next Hop            Metric LocPrf Weight Path
+ *>  172.16.10.24/30  50.50.50.41                            0 520 2042 i
+ *>  172.16.10.28/30  50.50.50.41                            0 520 2042 i
+
+Total number of prefixes 2
+```    
+
+
 
