@@ -92,7 +92,7 @@ router bgp 1001
   neighbor 10.10.10.15 next-hop-self
   neighbor 10.10.10.15 soft-reconfiguration inbound
   neighbor 90.90.90.2 activate
-  neighbor 90.90.90.2 filter-list 100 in
+  neighbor 90.90.90.2 filter-list 100 out
  exit-address-family
 
 ip as-path access-list 100 permit ^$      
@@ -113,7 +113,7 @@ router bgp 1001
   neighbor 10.10.10.14 soft-reconfiguration inbound
   neighbor 90.90.90.6 activate
   neighbor 90.90.90.6 route-map LP-150 in
-  neighbor 90.90.90.6 filter-list 100 in
+  neighbor 90.90.90.6 filter-list 100 out
  exit-address-family
 
 ip as-path access-list 100 permit .*ip as-path access-list 100 permit ^$      
