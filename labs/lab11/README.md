@@ -120,7 +120,37 @@ ip as-path access-list 100 permit .*ip as-path access-list 100 permit ^$
 ip as-path access-list 100 deny .*
 ```     
 Выполнив команду *show ip bgp* на R22, увидим, что через AS1001 не проходит транзитный трафик. (На скриншоте также присутствует результат этой команды до применения фильтрации)
-![](pic/11.png)
+![](pic/11.png)      
+
+**2.**  Настройка фильтрации в офисе С.-Петербург так, чтобы не появилось транзитного трафика с помощью Prefix-list.       
+```    
+R18#show run | s bgp
+router bgp 2042
+ bgp log-neighbor-changes
+ bgp bestpath as-path multipath-relax
+ neighbor 50.50.50.33 remote-as 520
+ neighbor 50.50.50.37 remote-as 520
+ !
+ address-family ipv4
+  network 10.10.10.18 mask 255.255.255.255
+  network 172.16.10.24 mask 255.255.255.252
+  network 172.16.10.28 mask 255.255.255.252
+  neighbor 50.50.50.33 activate
+  neighbor 50.50.50.33 prefix-list AS520_in in
+  neighbor 50.50.50.33 prefix-list SPB-IN out
+  neighbor 50.50.50.37 activate
+  neighbor 50.50.50.37 prefix-list AS520_in in
+  neighbor 50.50.50.37 prefix-list SPB-IN out
+  maximum-paths 2
+ exit-address-family
+ 
+ 
+ !
+ip prefix-list SPB-IN seq 10 permit 172.16.10.0/24 le 32
+ip prefix-list SPB-IN seq 20 permit 50.50.50.0/24 le 32
+
+```    
+
 
 
 
