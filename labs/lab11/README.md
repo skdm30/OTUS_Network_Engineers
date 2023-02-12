@@ -151,6 +151,22 @@ ip prefix-list SPB-IN seq 20 permit 50.50.50.0/24 le 32
 
 ```    
 
-
+**3.**   Настройка провайдера Киторн так, чтобы в офис Москва отдавался только маршрут по умолчанию. 
+На R22 необходимо произвести настройку, которая будет отдавать соседу R14 маршрут о умолчанию
+```    
+router bgp 101
+ bgp log-neighbor-changes
+ neighbor 50.50.50.18 remote-as 520
+ neighbor 90.90.90.1 remote-as 1001
+ neighbor 90.90.90.9 remote-as 301
+ !
+ address-family ipv4
+  neighbor 50.50.50.18 activate
+  neighbor 90.90.90.1 activate
+  **neighbor 90.90.90.1 default-originate**
+  neighbor 90.90.90.9 activate
+ exit-address-family
+       
+```
 
 
