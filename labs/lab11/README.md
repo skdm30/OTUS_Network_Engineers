@@ -213,6 +213,7 @@ router bgp 301
 
 ip prefix-list SPB seq 10 permit 172.16.10.0/24 le 32
 ip prefix-list SPB seq 20 permit 50.50.50.0/24 le 32
+```    
 
 
 
