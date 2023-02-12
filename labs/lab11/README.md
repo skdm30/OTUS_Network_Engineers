@@ -234,6 +234,11 @@ Originating default network 0.0.0.0
 
 Total number of prefixes 2
 ```    
-
+Полные конфиги устройств можно посмотреть здесь: 
+[R14](config/R14)    
+[R15](config/R15)    
+[R21](config/R21) 
+[R22](config/R22)    
+[R18](config/R18)   
 
 
