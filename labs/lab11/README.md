@@ -152,7 +152,7 @@ ip prefix-list SPB-IN seq 20 permit 50.50.50.0/24 le 32
 ```    
 
 **3.**   Настройка провайдера Киторн так, чтобы в офис Москва отдавался только маршрут по умолчанию. 
-На R22 необходимо произвести настройку, которая будет отдавать соседу R14 маршрут о умолчанию
+На R22 необходимо произвести настройку, которая будет отдавать соседу R14 маршрут о умолчанию (команда ***neighbor 90.90.90.1 default-originate***)
 ```    
 router bgp 101
  bgp log-neighbor-changes
@@ -163,10 +163,32 @@ router bgp 101
  address-family ipv4
   neighbor 50.50.50.18 activate
   neighbor 90.90.90.1 activate
-  **neighbor 90.90.90.1 default-originate**
+  neighbor 90.90.90.1 default-originate
   neighbor 90.90.90.9 activate
- exit-address-family
-       
+ exit-address-family    
 ```
+Вызвав команду ***show ip bgp*** получим: 
+```    
+R14#show ip bgp
+BGP table version is 8, local router ID is 10.10.10.14
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale, m multipath, b backup-path, f RT-Filter,
+              x best-external, a additional-path, c RIB-compressed,
+Origin codes: i - IGP, e - EGP, ? - incomplete
+RPKI validation codes: V valid, I invalid, N Not found
+
+     Network          Next Hop            Metric LocPrf Weight Path
+ *   0.0.0.0          90.90.90.2                             0 101 i
+ *>i                  10.10.10.15              0    150      0 301 i
+ *>  10.10.10.14/32   0.0.0.0                  0         32768 i
+ r>i 10.10.10.15/32   10.10.10.15              0    100      0 i
+ *>  10.10.10.27/32   90.90.90.2                             0 101 520 ?
+ *>  172.16.8.0/24    90.90.90.2                             0 101 520 ?
+ *   172.16.10.24/30  90.90.90.2                             0 101 520 2042 i
+ *>i                  10.10.10.15              0    150      0 301 520 2042 i
+ *   172.16.10.28/30  90.90.90.2                             0 101 520 2042 i
+ *>i                  10.10.10.15              0    150      0 301 520 2042 i
+```    
+Видим, что появился маршрут по умолчанию к R22 (он не выбран ***best**, т.к. проверка проводилась после выполнения задания 4).       
 
 
