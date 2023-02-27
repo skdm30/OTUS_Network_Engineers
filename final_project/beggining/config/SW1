@@ -1,0 +1,121 @@
+SW1#show run
+Building configuration...
+
+Current configuration : 1258 bytes
+!
+! Last configuration change at 13:34:15 EET Fri Feb 24 2023
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+!
+hostname SW1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+clock timezone EET 2 0
+!
+!
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Ethernet0/0
+ ip address 10.10.10.134 255.255.255.252
+!
+interface Ethernet0/1
+ no ip address
+!
+interface Ethernet0/1.20
+ encapsulation dot1Q 20
+ ip address 172.16.1.129 255.255.255.128
+!
+interface Ethernet0/2
+ no ip address
+ shutdown
+!
+interface Ethernet0/3
+ no ip address
+!
+interface Ethernet0/3.10
+ encapsulation dot1Q 10
+ ip address 172.16.1.1 255.255.255.128
+!
+interface Ethernet0/3.55
+ description -=MNGM=-
+ encapsulation dot1Q 55
+ ip address 172.16.0.1 255.255.255.0
+!
+interface Ethernet1/0
+ no ip address
+ shutdown
+!
+interface Ethernet1/1
+ no ip address
+ shutdown
+!
+interface Ethernet1/2
+ no ip address
+ shutdown
+!
+interface Ethernet1/3
+ no ip address
+ shutdown
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+ip route 0.0.0.0 0.0.0.0 10.10.10.133
+!
+!
+!
+!
+control-plane
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input all
+!
+!
+!
+end
