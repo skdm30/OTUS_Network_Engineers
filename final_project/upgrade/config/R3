@@ -1,0 +1,126 @@
+R3#show run
+Building configuration...
+
+Current configuration : 1371 bytes
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R3
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+clock timezone EET 2 0
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback1
+ ip address 3.3.3.3 255.255.255.255
+!
+interface Ethernet0/0
+ description -=to_R1=-
+ ip address 10.10.10.150 255.255.255.252
+ ip ospf 1 area 0
+!
+interface Ethernet0/1
+ description -=to_SW31=-
+ ip address 10.10.10.145 255.255.255.252
+ ip ospf 1 area 3
+!
+interface Ethernet0/2
+ description -=to_S33=-
+ no ip address
+!
+interface Ethernet0/2.70
+ encapsulation dot1Q 70
+ ip address 10.10.10.33 255.255.255.240
+!
+interface Ethernet0/3
+ description -=to_SW32=-
+ ip address 10.10.10.185 255.255.255.252
+ ip ospf 1 area 3
+!
+router ospf 1
+ network 10.10.10.145 0.0.0.0 area 3
+ network 10.10.10.150 0.0.0.0 area 0
+ network 10.10.10.185 0.0.0.0 area 3
+ default-information originate
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 10.10.10.149
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+!
+end
