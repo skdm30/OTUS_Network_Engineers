@@ -1,0 +1,155 @@
+R1#show run
+Building configuration...
+
+Current configuration : 1861 bytes
+!
+! Last configuration change at 13:21:02 EET Wed Mar 8 2023
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+clock timezone EET 2 0
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback1
+ ip address 1.1.1.1 255.255.255.255
+!
+interface Ethernet0/0
+ ip address 10.10.10.133 255.255.255.252
+ ip ospf 1 area 1
+!
+interface Ethernet0/1
+ ip address 10.10.10.129 255.255.255.252
+ ip ospf 1 area 1
+!
+interface Ethernet0/2
+ ip address 10.10.10.161 255.255.255.252
+ ip ospf 1 area 1
+!
+interface Ethernet0/3
+ ip address 10.10.10.153 255.255.255.252
+ ip ospf 1 area 1
+!
+interface Ethernet1/0
+ ip address 10.10.10.142 255.255.255.252
+ ip ospf 1 area 0
+!
+interface Ethernet1/1
+ ip address 10.10.10.149 255.255.255.252
+ ip ospf 1 area 0
+!
+interface Ethernet1/2
+ ip address 10.10.10.170 255.255.255.252
+ ip ospf 1 area 1
+!
+interface Ethernet1/3
+ no ip address
+ shutdown
+!
+interface Ethernet2/0
+ no ip address
+ shutdown
+!
+interface Ethernet2/1
+ no ip address
+ shutdown
+!
+interface Ethernet2/2
+ no ip address
+ shutdown
+!
+interface Ethernet2/3
+ no ip address
+ shutdown
+!
+router ospf 1
+ network 10.10.10.129 0.0.0.0 area 1
+ network 10.10.10.133 0.0.0.0 area 1
+ network 10.10.10.142 0.0.0.0 area 0
+ network 10.10.10.149 0.0.0.0 area 0
+ network 10.10.10.153 0.0.0.0 area 1
+ network 10.10.10.161 0.0.0.0 area 1
+ network 10.10.10.170 0.0.0.0 area 1
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+!
+end
