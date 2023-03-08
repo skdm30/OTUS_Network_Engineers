@@ -1,0 +1,154 @@
+SW11#show run
+Building configuration...
+
+Current configuration : 1963 bytes
+!
+! Last configuration change at 13:20:59 EET Wed Mar 8 2023
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+!
+hostname SW11
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+clock timezone EET 2 0
+!
+!
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+bridge irb
+!
+!
+!
+!
+!
+interface Loopback1
+ ip address 11.11.11.11 255.255.255.255
+!
+interface Ethernet0/0
+ description -=to R1=-
+ ip address 10.10.10.134 255.255.255.252
+ ip ospf 1 area 1
+!
+interface Ethernet0/1
+ no ip address
+!
+interface Ethernet0/1.20
+ encapsulation dot1Q 20
+ bridge-group 20
+!
+interface Ethernet0/2
+ no ip address
+!
+interface Ethernet0/2.10
+ description -=SERVERS=-
+ encapsulation dot1Q 10
+ bridge-group 10
+!
+interface Ethernet0/3
+ no ip address
+!
+interface Ethernet0/3.10
+ description -=SERVERS=-
+ encapsulation dot1Q 10
+ bridge-group 10
+!
+interface Ethernet1/0
+ no ip address
+!
+interface Ethernet1/0.20
+ encapsulation dot1Q 20
+ bridge-group 20
+!
+interface Ethernet1/1
+ description -=SW12=-
+ ip address 10.10.10.158 255.255.255.252
+ ip ospf 1 area 1
+!
+interface Ethernet1/2
+ no ip address
+ shutdown
+!
+interface Ethernet1/3
+ no ip address
+ shutdown
+!
+interface BVI10
+ ip address 172.16.1.2 255.255.255.128
+ standby version 2
+ glbp 10 ip 172.16.1.1
+!
+interface BVI20
+ ip address 172.16.1.130 255.255.255.128
+ standby version 2
+ glbp 20 ip 172.16.1.129
+ glbp 20 priority 200
+!
+router ospf 1
+ router-id 11.11.11.11
+ passive-interface Ethernet0/1
+ passive-interface Ethernet0/2
+ passive-interface Ethernet0/3
+ passive-interface Ethernet1/0
+ network 10.10.10.134 0.0.0.0 area 1
+ network 10.10.10.158 0.0.0.0 area 1
+ network 172.16.1.0 0.0.0.255 area 1
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+!
+!
+!
+bridge 10 protocol ieee
+bridge 10 route ip
+bridge 20 protocol ieee
+bridge 20 route ip
+!
+control-plane
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+!
+!
+!
+end
