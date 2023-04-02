@@ -88,6 +88,7 @@
 | ISP6 | e0/0  | 50.50.50.22  | 50.50.50.20/30  | to ISP4 e0/2 |  
 
 **Сети Point-To-Point Офис№2**  
-| host | Port  | IPv4 address |   Network       | Description  |
+
+| host | Port  | IPv4 address |   Network       | Description  |  
 | R4   | e0/1  | 50.50.50.26  | 50.50.50.24/30  | to ISP5 e0/1 |
 
