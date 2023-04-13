@@ -1,9 +1,9 @@
-R1#show run
+R1#show running-config
 Building configuration...
 
-Current configuration : 1861 bytes
+Current configuration : 4170 bytes
 !
-! Last configuration change at 13:21:02 EET Wed Mar 8 2023
+! Last configuration change at 21:11:24 EET Thu Apr 13 2023
 !
 version 15.4
 service timestamps debug datetime msec
@@ -27,23 +27,10 @@ mmi snmp-timeout 180
 !
 !
 !
-!
-!
-!
-!
-
-
-!
-!
-!
-!
 ip cef
 no ipv6 cef
 !
 multilink bundle-name authenticated
-!
-!
-!
 !
 !
 !
@@ -58,7 +45,16 @@ redundancy
 !
 !
 !
+crypto isakmp policy 1
+ authentication pre-share
+crypto isakmp key PASSWORD address 0.0.0.0
 !
+!
+crypto ipsec transform-set AES128-SHA esp-aes esp-sha-hmac
+ mode transport
+!
+crypto ipsec profile VPN
+ set transform-set AES128-SHA
 !
 !
 !
@@ -69,41 +65,68 @@ redundancy
 interface Loopback1
  ip address 1.1.1.1 255.255.255.255
 !
+interface Tunnel0
+ ip address 172.16.200.1 255.255.255.0
+ no ip redirects
+ ip nhrp map multicast dynamic
+ ip nhrp network-id 1
+ ip ospf network broadcast
+ ip ospf 1 area 0
+ tunnel source Ethernet1/3
+ tunnel mode gre multipoint
+ tunnel protection ipsec profile VPN
+!
 interface Ethernet0/0
  ip address 10.10.10.133 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
  ip ospf 1 area 1
 !
 interface Ethernet0/1
  ip address 10.10.10.129 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
  ip ospf 1 area 1
 !
 interface Ethernet0/2
  ip address 10.10.10.161 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
  ip ospf 1 area 1
 !
 interface Ethernet0/3
  ip address 10.10.10.153 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
  ip ospf 1 area 1
 !
 interface Ethernet1/0
  ip address 10.10.10.142 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
  ip ospf 1 area 0
 !
 interface Ethernet1/1
  ip address 10.10.10.149 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
  ip ospf 1 area 0
 !
 interface Ethernet1/2
  ip address 10.10.10.170 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
  ip ospf 1 area 1
 !
 interface Ethernet1/3
- no ip address
- shutdown
+ description -=to_ISP1=-
+ ip address 45.45.45.10 255.255.255.248
+ ip nat outside
+ ip virtual-reassembly in
 !
 interface Ethernet2/0
- no ip address
- shutdown
+ description -=to_ISP2=-
+ ip address 55.55.55.14 255.255.255.252
 !
 interface Ethernet2/1
  no ip address
@@ -118,6 +141,7 @@ interface Ethernet2/3
  shutdown
 !
 router ospf 1
+ priority 100
  network 10.10.10.129 0.0.0.0 area 1
  network 10.10.10.133 0.0.0.0 area 1
  network 10.10.10.142 0.0.0.0 area 0
@@ -125,20 +149,53 @@ router ospf 1
  network 10.10.10.153 0.0.0.0 area 1
  network 10.10.10.161 0.0.0.0 area 1
  network 10.10.10.170 0.0.0.0 area 1
+ network 172.16.200.1 0.0.0.0 area 0
+ default-information originate
+!
+router bgp 101
+ bgp log-neighbor-changes
+ network 1.1.1.1 mask 255.255.255.255
+ network 45.45.45.8 mask 255.255.255.248
+ neighbor 45.45.45.9 remote-as 201
+ neighbor 55.55.55.13 remote-as 201
 !
 ip forward-protocol nd
 !
 !
 no ip http server
 no ip http secure-server
+ip nat pool pool1 45.45.45.11 45.45.45.14 netmask 255.255.255.248
+ip nat inside source list 1 pool pool1 overload
+ip route 0.0.0.0 0.0.0.0 45.45.45.13
+!
+ip access-list extended VKS_in
+ permit ip host 224.0.0.5 any
+ evaluate ICMPTRAFFIC
+ permit ip 10.10.10.0 0.0.0.15 10.10.10.16 0.0.0.15
+ permit ip 10.10.10.0 0.0.0.15 10.10.10.32 0.0.0.15
+ permit ip 10.10.10.0 0.0.0.15 10.10.10.48 0.0.0.15
+ permit ip 10.10.10.0 0.0.0.15 host 172.16.1.10
+ deny   ip any any
+ip access-list extended VKS_out
+ permit ip host 224.0.0.5 any
+ permit icmp 172.16.1.128 0.0.0.127 10.10.10.0 0.0.0.15 reflect ICMPTRAFFIC timeout 300
+ permit ip 10.10.10.16 0.0.0.15 10.10.10.0 0.0.0.15
+ permit ip 10.10.10.32 0.0.0.15 10.10.10.0 0.0.0.15
+ permit ip 10.10.10.48 0.0.0.15 10.10.10.0 0.0.0.15
+ permit ip host 172.16.1.10 10.10.10.0 0.0.0.15
+ permit ip 172.16.1.128 0.0.0.127 10.10.10.0 0.0.0.15
+ deny   ip any any
 !
 !
 !
+access-list 1 permit 172.16.1.0 0.0.0.128
+access-list 1 permit 172.16.2.0 0.0.0.255
+access-list 1 permit 172.16.3.0 0.0.0.255
+access-list 1 permit 172.16.4.0 0.0.0.255
+access-list 1 permit 172.16.5.0 0.0.0.255
+access-list 1 deny   any
 !
 control-plane
-!
-!
-!
 !
 !
 !
