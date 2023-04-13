@@ -1,0 +1,170 @@
+ISP1#show run
+Building configuration...
+
+Current configuration : 1893 bytes
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname ISP1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+clock timezone EET 2 0
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+
+ISP1#
+ISP1#
+ISP1#show run
+Building configuration...
+
+Current configuration : 1893 bytes
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname ISP1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+clock timezone EET 2 0
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 10.10.10.1 255.255.255.255
+ ip router isis
+!
+interface Ethernet0/0
+ description -=to_ISP3=-
+ ip address 50.50.50.1 255.255.255.252
+ ip router isis
+!
+interface Ethernet0/1
+ description -=to_ISP2=-
+ ip address 50.50.50.13 255.255.255.252
+ ip router isis
+!
+interface Ethernet0/2
+ description -=to_R1=-
+ ip address 45.45.45.9 255.255.255.248
+ ip router isis
+!
+interface Ethernet0/3
+ no ip address
+!
+router isis
+ net 49.2222.0001.0001.0001.00
+!
+router bgp 201
+ bgp log-neighbor-changes
+ neighbor 10.10.10.2 remote-as 201
+ neighbor 10.10.10.2 update-source Loopback0
+ neighbor 10.10.10.3 remote-as 201
+ neighbor 10.10.10.3 update-source Loopback0
+ neighbor 10.10.10.4 remote-as 201
+ neighbor 10.10.10.4 update-source Loopback0
+ neighbor 45.45.45.10 remote-as 101
+ !
+ address-family ipv4
+  network 10.10.10.1 mask 255.255.255.255
+  neighbor 10.10.10.2 activate
+  neighbor 10.10.10.2 route-reflector-client
+  neighbor 10.10.10.2 next-hop-self
+  neighbor 10.10.10.3 activate
+  neighbor 10.10.10.3 route-reflector-client
+  neighbor 10.10.10.3 next-hop-self
+  neighbor 10.10.10.4 activate
+  neighbor 10.10.10.4 route-reflector-client
+  neighbor 10.10.10.4 next-hop-self
+  neighbor 45.45.45.10 activate
+ exit-address-family
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+!
+end
